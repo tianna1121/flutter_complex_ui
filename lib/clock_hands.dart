@@ -21,9 +21,9 @@ class ClockHands extends StatelessWidget {
             child: new Stack(fit: StackFit.expand, children: <Widget>[
               new CustomPaint(
                 painter: new HourHandPainter(
-                    hours: dateTime.hour,
-                    minutes: dateTime.minute,
-                    showHeartShape: showHourHandleHeartShape),
+                  hours: dateTime.hour,
+                  minutes: dateTime.minute,
+                ),
               ),
               new CustomPaint(
                 painter: new MinuteHandPainter(

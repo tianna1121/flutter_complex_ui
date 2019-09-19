@@ -28,11 +28,11 @@ class AppClock extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Clock(
-              circleColor: Colors.black,
-              showBellsAndLegs: false,
+              circleColor: Colors.green,
+              showBellsAndLegs: true,
               bellColor: Colors.green,
               clockText: ClockText.arabic,
-              showHourHandleHeartShape: false,
+              showHourHandleHeartShape: true,
             ),
           ],
         ),
