@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'dart:math';
+
+import 'package:flutter_complex_ui/clock_dial_painter.dart';
+import 'package:flutter_complex_ui/clock_hands.dart';
 
 import './clock_text.dart';
 import 'package:flutter/material.dart';
@@ -9,21 +11,15 @@ typedef TimeProducer = DateTime Function();
 
 class Clock extends StatefulWidget {
   final Color circleColor;
-  final bool showBellsAndLegs;
-  final Color bellColor;
-  final Color legColor;
   final ClockText clockText;
-  final bool showHourHandleHeartShape;
   final TimeProducer getCurrentTime;
   final Duration updateDuration;
+  final Color shadowColor;
 
   Clock(
-      {this.circleColor = Colors.black,
-      this.showBellsAndLegs = true,
-      this.bellColor = const Color(0xFF333333),
-      this.legColor = const Color(0xFF555555),
+      {this.circleColor = const Color(0xFFE1ECF7),
+      this.shadowColor = const Color(0xFFD9e2ed),
       this.clockText = ClockText.arabic,
-      this.showHourHandleHeartShape = false,
       this.getCurrentTime = getSystemTime,
       this.updateDuration = const Duration(seconds: 1)});
 
@@ -70,21 +66,38 @@ class _Clock extends State<Clock> {
 
   Container buildClockCircle(BuildContext context) {
     return new Container(
-      width: double.infinity,
-      decoration: new BoxDecoration(
-        shape: BoxShape.circle,
-        color: widget.circleColor,
-        boxShadow: [
-          new BoxShadow(
-            offset: new Offset(0.0, 5.0),
-            blurRadius: 5.0,
-          )
-        ],
-      ),
-      child: new ClockFace(
-        clockText: widget.clockText,
-        dateTime: dateTime,
-      ),
-    );
+        width: double.infinity,
+        decoration: new BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.transparent,
+          boxShadow: [
+            new BoxShadow(
+              offset: new Offset(0.0, 5.0),
+              blurRadius: 0.0,
+              color: widget.shadowColor,
+            ),
+            BoxShadow(
+                offset: Offset(0.0, 5.0),
+                color: widget.circleColor,
+                blurRadius: 10.0,
+                spreadRadius: -8)
+          ],
+        ),
+        child: Stack(
+          children: <Widget>[
+            ClockFace(
+              clockText: widget.clockText,
+              dateTime: dateTime,
+            ),
+            Container(
+              padding: EdgeInsets.all(25.0),
+              width: double.infinity,
+              child: CustomPaint(
+                painter: ClockDialPainter(clockText: widget.clockText),
+              ),
+            ),
+            ClockHands(dateTime: dateTime)
+          ],
+        ));
   }
 }
